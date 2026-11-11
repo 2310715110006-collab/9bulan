@@ -1,0 +1,464 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Special Gift for Adinda Meyka Putri 💕</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+  
+  <!-- Icons & Confetti -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'sans': ['Poppins', 'sans-serif'],
+            'cursive': ['Dancing Script', 'cursive'],
+            'sacramento': ['Sacramento', 'cursive']
+          },
+          colors: {
+            'rose-soft': '#ffe6e9',
+            'rose-main': '#e63946',
+            'rose-dark': '#c9184a',
+            'purple-soft': '#7209b7'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Floating Heart Background Animation */
+    .heart-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .heart-particle {
+      position: absolute;
+      bottom: -50px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+      user-select: none;
+    }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(0.8);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(360deg) scale(1.3);
+        opacity: 0;
+      }
+    }
+
+    /* Gift Box 3D Interactive Animation */
+    .gift-container {
+      perspective: 1000px;
+    }
+    .gift-box {
+      position: relative;
+      width: 180px;
+      height: 160px;
+      margin: 0 auto;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .gift-box:hover {
+      transform: scale(1.06) rotateY(5deg);
+      filter: drop-shadow(0 15px 25px rgba(230, 57, 70, 0.35));
+    }
+    
+    .gift-box .lid {
+      width: 190px;
+      height: 45px;
+      background: linear-gradient(135deg, #ff4d6d 0%, #e63946 100%);
+      position: absolute;
+      top: 0;
+      left: -5px;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+      transition: transform 0.8s cubic-bezier(0.68, -0.6, 0.27, 1.55);
+      z-index: 3;
+    }
+    /* Ribbons */
+    .gift-box .lid::before {
+      content: '';
+      position: absolute;
+      width: 32px;
+      height: 100%;
+      background: #ffb3c1;
+      left: 79px;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    }
+    .gift-box .bow {
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 42px;
+      z-index: 4;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      animation: pulseBow 2s infinite ease-in-out;
+    }
+    @keyframes pulseBow {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.1); }
+    }
+
+    .gift-box .body {
+      width: 180px;
+      height: 125px;
+      background: linear-gradient(135deg, #c9184a 0%, #a4133c 100%);
+      position: absolute;
+      bottom: 0;
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    }
+    .gift-box .body::before {
+      content: '';
+      position: absolute;
+      width: 32px;
+      height: 100%;
+      background: #ffb3c1;
+      left: 74px;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    /* Open State */
+    .gift-box.open .lid {
+      transform: translateY(-130px) rotate(-25deg) scale(0.9);
+      opacity: 0.9;
+    }
+
+    /* Letter Card Container */
+    .letter-card {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      border: 2px solid #ffb3c1;
+      box-shadow: 0 20px 40px rgba(201, 24, 74, 0.15);
+      transform: translateY(40px) scale(0.95);
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .letter-card.show {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    /* Glassmorphism Badge */
+    .glass-badge {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 179, 193, 0.5);
+    }
+
+    /* Glowing Button */
+    .glow-btn {
+      box-shadow: 0 0 15px rgba(230, 57, 70, 0.4);
+      transition: all 0.3s ease;
+    }
+    .glow-btn:hover {
+      box-shadow: 0 0 25px rgba(230, 57, 70, 0.7);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-rose-50 to-purple-100 min-h-screen font-sans text-slate-800 flex items-center justify-center relative p-4 overflow-x-hidden">
+
+  <!-- Audio Player (Background Music) -->
+  <audio id="bgm" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Music Floating Toggle Button -->
+  <button id="musicBtn" onclick="toggleMusic()" class="fixed top-5 right-5 z-50 bg-white/80 backdrop-blur-md px-4 py-2.5 rounded-full shadow-lg border border-rose-200 text-rose-600 hover:bg-rose-500 hover:text-white transition-all duration-300 flex items-center gap-2 text-xs md:text-sm font-semibold">
+    <i id="musicIcon" class="fas fa-music text-rose-500"></i>
+    <span id="musicText">Putar Musik 🎵</span>
+  </button>
+
+  <!-- Floating Hearts Particles Background -->
+  <div class="heart-bg" id="heartBg"></div>
+
+  <!-- MAIN WRAPPER -->
+  <main class="container max-w-xl mx-auto text-center z-10 py-6 relative">
+    
+    <!-- HEADER -->
+    <header id="headerSection" class="transition-all duration-500">
+      <div class="inline-block glass-badge px-4 py-1.5 rounded-full mb-3 shadow-sm border border-rose-200">
+        <span class="text-xs md:text-sm font-semibold text-rose-600 tracking-wide">✨ Special Milestone ✨</span>
+      </div>
+      
+      <h1 class="font-cursive text-4xl md:text-5xl font-bold text-rose-600 mb-1 drop-shadow-sm">
+        Happy 9th Monthiversary! ❤️
+      </h1>
+      
+      <span class="font-cursive text-2xl md:text-3xl text-rose-dark block mb-4 font-semibold">
+        For: Adinda Meyka Putri
+      </span>
+      
+      <p id="subtitle" class="text-slate-600 text-sm md:text-base max-w-md mx-auto mb-8 leading-relaxed">
+        Satu kado kecil yang penuh dengan ketulusan dan rasa cinta. <br class="hidden sm:inline">
+        <span class="text-rose-500 font-medium">Klik kadonya untuk membuka pesan spesial...</span>
+      </p>
+    </header>
+
+    <!-- GIFT BOX INTERACTIVE SECTION -->
+    <section id="giftSection" class="my-6">
+      <div class="gift-container">
+        <div class="gift-box" id="giftBox" onclick="openGift()">
+          <div class="bow">🎀</div>
+          <div class="lid"></div>
+          <div class="body"></div>
+        </div>
+      </div>
+      
+      <button onclick="openGift()" id="openBtn" class="mt-8 glow-btn bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold px-8 py-3.5 rounded-full shadow-lg active:scale-95 transition-all text-sm md:text-base inline-flex items-center gap-2">
+        <i class="fas fa-gift"></i> Buka Kado Sekarang
+      </button>
+    </section>
+
+    <!-- ROMANTIC LOVE LETTER SECTION (HIDDEN INITIALLY) -->
+    <section id="letterSection" class="hidden my-4">
+      <div class="letter-card rounded-3xl p-6 md:p-8 text-left relative overflow-hidden">
+        
+        <!-- Subtle Decorative Background Circles -->
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-200/40 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-rose-300/30 rounded-full blur-2xl pointer-events-none"></div>
+
+        <!-- Envelope Header Tag -->
+        <div class="flex items-center justify-between border-b border-rose-100 pb-4 mb-5">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">💌</span>
+            <span class="font-cursive text-2xl md:text-3xl font-bold text-rose-600">Surat Cinta Untuk Mey</span>
+          </div>
+          <span class="text-xs bg-rose-100 text-rose-600 px-3 py-1 rounded-full font-semibold">9 Months</span>
+        </div>
+
+        <!-- Greeting -->
+        <h2 class="font-sacramento text-3xl md:text-4xl text-rose-600 mb-4 font-bold">
+          Dearest Adinda Meyka Putri... 🌸
+        </h2>
+
+        <!-- MAIN MESSAGE -->
+        <div class="space-y-4 text-slate-700 text-sm md:text-base leading-relaxed font-normal text-justify">
+          <p>
+            Sembilan bulan bukan cuma sekadar angka, tapi <span class="font-semibold text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded">270 hari penuh rasa syukur</span> karena ada kamu di hidup aku.
+          </p>
+          <p>
+            Mey, terima kasih ya sudah memilih untuk bertahan, mendengar cerita-ceritaku, dan menjadi tempat ternyaman untuk pulang. Bersamamu, hal-hal sederhana berubah jadi istimewa. Senyum kamu selalu berhasil jadi alasan terbaik aku untuk bahagia setiap harinya.
+          </p>
+          <p class="font-semibold text-rose-600 bg-rose-100/60 p-3 rounded-2xl border-l-4 border-rose-500 text-center italic">
+            "Gak ada hadiah di dunia ini yang bisa menandingi indahnya kehadiran kamu."
+          </p>
+          <p>
+            Semoga di bulan ke-9 dan bulan-bulan seterusnya, kita bisa terus bertumbuh bareng, saling menggenggam lebih erat, dan melewati setiap musim kehidupan dengan penuh rasa sayang.
+          </p>
+          <p class="font-medium text-slate-800">
+            Terima kasih sudah lahir dan menjadi bagian terindah dalam hidupku.
+          </p>
+        </div>
+
+        <!-- SIGNATURE -->
+        <div class="mt-8 pt-4 border-t border-rose-100 text-right">
+          <p class="font-cursive text-2xl md:text-3xl text-rose-dark font-bold">I love you so much, Mey! 💕</p>
+          <p class="text-xs md:text-sm font-medium text-slate-500 mt-1">— Selamanya Milikmu</p>
+        </div>
+
+        <!-- INTERACTIVE ACTION BUTTONS -->
+        <div class="mt-8 pt-4 flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <button onclick="sendLove()" class="w-full sm:w-auto bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold px-6 py-3 rounded-full shadow-md active:scale-95 transition flex items-center justify-center gap-2 text-xs md:text-sm">
+            <i class="fas fa-heart text-white"></i> Balas "I Love You Too!"
+          </button>
+          <button onclick="hugAction()" class="w-full sm:w-auto bg-white hover:bg-rose-50 text-rose-600 font-semibold px-6 py-3 rounded-full shadow-md border border-rose-200 active:scale-95 transition flex items-center justify-center gap-2 text-xs md:text-sm">
+            <i class="fas fa-hands-holding-child"></i> Kirim Peluk Hangat 🤗
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-8 text-xs text-slate-400">
+      <p>Dibuat khusus dengan segenap cinta & rasa sayang untuk Adinda Meyka Putri ❤️</p>
+    </footer>
+
+  </main>
+
+  <!-- SWEET POPUP MODAL -->
+  <div id="loveModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-xs sm:max-w-sm w-full text-center shadow-2xl transform scale-90 transition-all duration-300 border border-rose-100">
+      <div id="modalIcon" class="text-5xl mb-3">💖</div>
+      <h3 id="modalTitle" class="text-xl font-bold text-slate-800 mb-2">Pesan Untuk Mey</h3>
+      <p id="modalMessage" class="text-sm text-slate-600 mb-6 leading-relaxed">Isi pesan...</p>
+      <button onclick="closeModal()" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2.5 rounded-xl shadow-md transition">
+        Tutup dengan Senyuman 💕
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Music Controls Logic
+    let isPlaying = false;
+    const bgm = document.getElementById('bgm');
+    const musicBtn = document.getElementById('musicBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    const musicText = document.getElementById('musicText');
+
+    function toggleMusic() {
+      if (isPlaying) {
+        bgm.pause();
+        musicIcon.className = "fas fa-music text-rose-500";
+        musicText.innerText = "Putar Musik 🎵";
+        isPlaying = false;
+      } else {
+        bgm.play().then(() => {
+          musicIcon.className = "fas fa-pause text-rose-500";
+          musicText.innerText = "Matikan Musik ⏸️";
+          isPlaying = true;
+        }).catch(err => {
+          console.log("Audio play blocked by browser. User interaction needed.");
+        });
+      }
+    }
+
+    // Open Gift Box Logic
+    function openGift() {
+      const giftBox = document.getElementById('giftBox');
+      const openBtn = document.getElementById('openBtn');
+      const giftSection = document.getElementById('giftSection');
+      const letterSection = document.getElementById('letterSection');
+      const subtitle = document.getElementById('subtitle');
+      const letterCard = document.querySelector('.letter-card');
+
+      // Trigger Box Opening Animation
+      giftBox.classList.add('open');
+      openBtn.style.opacity = '0';
+      openBtn.style.pointerEvents = 'none';
+
+      // Confetti Explosions
+      triggerConfetti();
+
+      // Play music if not already playing
+      if (!isPlaying) {
+        toggleMusic();
+      }
+
+      // Hide Gift Box & Show Letter Smoothly
+      setTimeout(() => {
+        giftSection.style.display = 'none';
+        subtitle.style.display = 'none';
+        
+        letterSection.classList.remove('hidden');
+        setTimeout(() => {
+          letterCard.classList.add('show');
+          letterSection.scrollIntoView({ behavior: 'smooth' });
+        }, 50);
+
+        // Second Confetti Wave
+        setTimeout(triggerConfetti, 400);
+      }, 700);
+    }
+
+    // Confetti Effect
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#e63946', '#ff4d6d', '#ffb3c1', '#7209b7', '#fde047']
+        });
+      }
+    }
+
+    // Interactive Button Actions
+    function sendLove() {
+      triggerConfetti();
+      showModal(
+        "🥰 Makasih Sayang!", 
+        "Setiap detik bersamamu adalah hadiah terindah. Terima kasih ya Mey sudah menjadi alasan tersenyumku setiap hari. I love you to the moon and back! ❤️",
+        "💖"
+      );
+    }
+
+    function hugAction() {
+      triggerConfetti();
+      showModal(
+        "🤗 Peluk Erat Buat Mey!", 
+        "Virtual hug paling hangat sudah terkirim! Sampai ketemu di pelukan hangat secara langsung ya, Mey! 🫂✨",
+        "🤗"
+      );
+    }
+
+    // Custom Modal Controls
+    function showModal(title, message, icon = "💖") {
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('modalMessage').innerText = message;
+      document.getElementById('modalIcon').innerText = icon;
+      
+      const modal = document.getElementById('loveModal');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.firstElementChild.classList.remove('scale-90');
+        modal.firstElementChild.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('loveModal');
+      modal.firstElementChild.classList.remove('scale-100');
+      modal.firstElementChild.classList.add('scale-90');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 200);
+    }
+
+    // Create Floating Hearts in Background
+    function createHearts() {
+      const bg = document.getElementById('heartBg');
+      const heartIcons = ['💖', '❤️', '💕', '🌸', '✨'];
+
+      for (let i = 0; i < 25; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart-particle');
+        heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+        
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        heart.style.animationDelay = (Math.random() * 5) + 's';
+        heart.style.fontSize = (Math.random() * 16 + 14) + 'px';
+        
+        bg.appendChild(heart);
+      }
+    }
+
+    // Initialize Particles on Load
+    window.onload = function() {
+      createHearts();
+    };
+  </script>
+</body>
+</html>
+```
